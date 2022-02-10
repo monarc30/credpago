@@ -140,10 +140,11 @@ CREATE TABLE `sites` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `user_id` bigint unsigned NOT NULL,
+  `obs` text COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `sites_user_id_foreign` (`user_id`),
   CONSTRAINT `sites_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -152,7 +153,7 @@ CREATE TABLE `sites` (
 
 LOCK TABLES `sites` WRITE;
 /*!40000 ALTER TABLE `sites` DISABLE KEYS */;
-INSERT INTO `sites` VALUES (1,'http://www.uol.com.br','HTTP/1.0 301 Moved Permanently','Akamai-GRN:','2022-02-09 05:14:42','2022-02-09 05:14:42',7),(2,'http://segen1.com.br','HTTP/1.1 301 Moved Permanently','HTTP/1.1 200 OK','2022-02-09 05:16:49','2022-02-09 05:16:49',7),(3,'http://www.google.com.br','HTTP/1.0 200 OK','X-XSS-Protection: 0','2022-02-09 05:20:19','2022-02-09 05:20:19',7),(4,'http://www.google.com.br','HTTP/1.0 200 OK','X-XSS-Protection: 0','2022-02-09 05:22:16','2022-02-09 05:22:16',7),(5,'http://www.uol.com.br','HTTP/1.1 301 Moved Permanently','Content-Security-Policy: frame-ancestors \'self\' *.intranet *.uolinc.com;','2022-02-09 05:23:29','2022-02-09 05:23:29',7),(6,'http://segen1.com.br','HTTP/1.1 301 Moved Permanently','HTTP/1.1 200 OK','2022-02-09 05:30:31','2022-02-09 05:30:31',7);
+INSERT INTO `sites` VALUES (3,'http://www.uol.com.br','HTTP/1.1 301 Moved Permanently','Content-Type: text/html; charset=iso-8859-1','2022-02-10 03:12:58','2022-02-10 07:00:01',1,'HTTP/1.1 301 Moved Permanently;Content-Type: text/html; charset=iso-8859-1;Content-Length: 231;Connection: close;Date: Wed, 09 Feb 2022 18:17:13 GMT;Server: Apache;Cache-Control: max-age=86400;Content-Security-Policy: frame-ancestors \'self\' *.intranet *.uolinc.com;;Location: https://www.uol.com.br/;X-Cache: Hit from cloudfront;Via: 1.1 8b2a98682e221cca97ad71d86a718ee4.cloudfront.net (CloudFront);X-Amz-Cf-Pop: GRU3-C1;X-Amz-Cf-Id: N6LhOcbtayMqnoR7JAh_Scca6kUTUFhbHW9iT5vGrfD9xPFaiqaXwA==;Age: 34968;HTTP/1.1 200 OK;Content-Type: text/html;charset=UTF-8;Content-Length: 702494;Connection: close;Date: Thu, 10 Feb 2022 04:00:00 GMT;Server: marrakesh 1.22.0;Content-Security-Policy: frame-ancestors \'self\' *.intranet *.uolinc.com;;Cache-Control: no-transform, max-age=10, must-revalidate, proxy-revalidate;Last-Modified: Thu, 10 Feb 2022 03:59:16 GMT;Expires: Thu, 10 Feb 2022 04:00:10 GMT;ETag: \"e9f8e1a2b305d30649ddb2ea85b201e1\";Vary: Accept-Encoding,User-Agent;X-Cache: Hit from cloudfront;Via: 1.1 0b3925100a099c9b252dbe8700f7a1a0.cloudfront.net (CloudFront);X-Amz-Cf-Pop: GRU3-C1;X-Amz-Cf-Id: wt5kaPIX_lVt5Poo7Ku7Ju7RKVFO2zTlzy-0ITwpToENzQEo1rn1kQ==;Age: 1;'),(4,'http://www.google.com.br','HTTP/1.0 200 OK','Date: Thu, 10 Feb 2022 04:00:01 GMT','2022-02-10 03:21:46','2022-02-10 07:00:01',1,'HTTP/1.0 200 OK;Date: Thu, 10 Feb 2022 04:00:01 GMT;Expires: -1;Cache-Control: private, max-age=0;Content-Type: text/html; charset=ISO-8859-1;P3P: CP=\"This is not a P3P policy! See g.co/p3phelp for more info.\";Server: gws;X-XSS-Protection: 0;X-Frame-Options: SAMEORIGIN;Set-Cookie: 1P_JAR=2022-02-10-04; expires=Sat, 12-Mar-2022 04:00:01 GMT; path=/; domain=.google.com.br; Secure;Set-Cookie: NID=511=ZZ0qye5VUTIwLPmrS17JkRM9bL-jxRnUKd75u1LpC93Aa3oauiOKCP2YLY5Hqqey866e0BgJQQMiytTj-D2vlz1LeJ6ylTQr2HQq8E4qovvHQh9HcTW0dJIGzvl8LipdFJmm57nDdultoCAwWXjfESTiqNzD8r1R2Owcmwg_lko; expires=Fri, 12-Aug-2022 04:00:01 GMT; path=/; domain=.google.com.br; HttpOnly;Accept-Ranges: none;Vary: Accept-Encoding;');
 /*!40000 ALTER TABLE `sites` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -174,7 +175,7 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -183,7 +184,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'fernando monarca','rochamonarca@hotmail.com',NULL,'$2y$10$M3Gp2DZwMkpOwAiD7lDJNeAqPJtXuPzFNWjShsMINJdRPPH8qxliu',NULL,'2022-02-09 05:02:11','2022-02-09 05:02:11'),(2,'fernando monarca','fernando.monarca@hotmail.com',NULL,'$2y$10$eH276kI1crd4kYNwPi9iXOCJ2R2PCjKo45YtkBd1kkajfwrcJfyNq',NULL,'2022-02-09 05:03:36','2022-02-09 05:03:36'),(3,'fernando monarca','admin@bionexo.com',NULL,'$2y$10$k2G69lUDlnowx2i1c0fBnOzzAdeQBYtNbf1IMA9jL6eR7NNOMOVwu',NULL,'2022-02-09 05:05:18','2022-02-09 05:05:18'),(4,'fernando monarca','admi2n@bionexo.com',NULL,'$2y$10$dw6OpXLmNrO5WSEY.uMnf.O888ORbNweQWw9lzBF5CtomyBAyvtU6',NULL,'2022-02-09 05:06:58','2022-02-09 05:06:58'),(5,'fernando monarca','fernando.monarca2@hotmail.com',NULL,'$2y$10$mHSy4q8xZjK0pVPKhQV2hehhuHyik.AwoLuXi61SA.32QGNHq6n.G',NULL,'2022-02-09 05:07:30','2022-02-09 05:07:30'),(6,'fernando monarca','admin@bionexo6.com',NULL,'$2y$10$8LmIl5ZXRMc6X9AZ7PlxJOtYzL3JYi1h3K19wx5Gllm6pyVTdvnsy',NULL,'2022-02-09 05:13:16','2022-02-09 05:13:16'),(7,'fernando monarca','admin@bionexo2.com',NULL,'$2y$10$655Sp1JDla.yYXLEThJjnecSzyAE.Cp2BGL0alhQ14FoCUyh0E4C2',NULL,'2022-02-09 05:13:42','2022-02-09 05:13:42');
+INSERT INTO `users` VALUES (1,'fernando monarca','fernando.monarca@hotmail.com',NULL,'$2y$10$m98uYRmcr7axXq/YBacP3OLtHzk8Y2sSSceGybAVJnGjiEZzxIvYW',NULL,'2022-02-10 03:03:18','2022-02-10 03:03:18');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -196,4 +197,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-09 16:12:58
+-- Dump completed on 2022-02-10  1:00:52
