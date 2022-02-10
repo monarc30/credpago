@@ -20,7 +20,7 @@
         </div>
     @endif
 
-    <div class="pt-15 w-4/5 m-auto">
+    <div class="pt-15 w-4/5 m-auto" id="urls">
         <table class="styled-table">
             <thead>
                 <tr>
@@ -96,7 +96,17 @@
             </tbody>
 
         </table>
-    </div>
-
+    </div>  
     
 @endsection
+
+
+@push('add-to-footer')
+
+<script>
+    var auto_refresh = setInterval(() => {
+        $('#urls').load("<?php echo url('site.show');?>").fadeIn("slow");
+    }, 100);
+</script>
+    
+@endpush
