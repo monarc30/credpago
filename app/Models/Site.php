@@ -9,7 +9,7 @@ class Site extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['url', 'status_code_first', 'status_code_last', 'user_id'];
+    protected $fillable = ['url', 'status_code_first', 'status_code_last', 'user_id', 'obs'];
 
     public function user()
     {

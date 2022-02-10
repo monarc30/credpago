@@ -21,6 +21,7 @@ class Sites extends Migration
             $table->string('status_code_last');
             $table->timestamps();
             $table->unsignedBigInteger('user_id');
+            $table->text('obs');
             $table->foreign('user_id')->references('id')->on('users');
 
         });

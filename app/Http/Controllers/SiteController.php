@@ -22,7 +22,7 @@ class SiteController extends Controller
      */
     public function index()
     {
-        return view('site.index')->with('sites', Site::orderBy('updated_at', 'DESC')->get());
+        return view('site.index')->with('urls', Site::orderBy('updated_at', 'DESC')->get());
     }
 
     /**
@@ -55,19 +55,28 @@ class SiteController extends Controller
         // exit;
 
         try {
+            
             $response = get_headers($url);
+
+            $obs = "";
+            
+            for ($i=0; $i<count($response); $i++) {
+                $obs .= $response[$i].";";
+            }
+            
+            Site::create([
+                'url' => $request->input('url'),
+                'status_code_first' => $response[0],
+                'status_code_last' => $response[7],
+                'user_id' => auth()->user()->id,           
+                'obs' => $obs
+            ]);
+
         } catch (Exception $e) {            
             return redirect('/site')
             ->with('message', 'URL inválida!');
 
-        }
-
-        Site::create([
-            'url' => $request->input('url'),
-            'status_code_first' => $response[0],
-            'status_code_last' => $response[7],
-            'user_id' => auth()->user()->id,           
-        ]);
+        }        
 
         return redirect('/site')
             ->with('message', 'URL inserida com sucesso!');
@@ -112,8 +121,7 @@ class SiteController extends Controller
         
         Site::where('id', $id)
             ->update([
-                'url' => $request->input('url'),
-                'status_code' => 200,
+                'url' => $request->input('url'),                
                 'user_id' => auth()->user()->id,           
             ]);
         
@@ -134,5 +142,32 @@ class SiteController extends Controller
 
         return redirect('/site')
             ->with('message', 'Url excluída!');
+    }
+
+    public function updateUrlStatus() 
+    {
+        $urls = Site::all();
+
+        foreach ($urls as $row) {            
+
+            $response = get_headers($row['url']);
+
+            $obs = "";
+
+            for ($i=0; $i<count($response); $i++) {
+                $obs .= $response[$i].";";
+            }
+
+            if (isset($response[0]) && isset($response[7])) {
+
+                $url = Site::find($row['id']); 
+                $url->url = $row['url']; 
+                $url->status_code_first = $response[0]; 
+                $url->status_code_last = $response[1];                 
+                $url->obs = $obs;
+                $url->save(); 
+                
+            }                            
+        }        
     }
 }

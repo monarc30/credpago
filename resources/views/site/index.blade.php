@@ -2,7 +2,7 @@
 
 @section('content')    
 
-    <h2 class="text-3xl font-extrabold text-gray-600">Links</h2>  
+    <h2 class="text-3xl font-extrabold text-gray-600">URLs</h2>  
     
     @if (session()->has('message'))
         <div class="w-4/5 m-auto mt-10 pl-2">
@@ -20,54 +20,83 @@
         </div>
     @endif
 
-    @foreach ($sites as $site)
+    <div class="pt-15 w-4/5 m-auto">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                  <th>Url</th>
+                  <th>Status Code</th>
+                  <th>User</th>
+                  <th>Data</th>
+                  <th>Detalhes</th>
+                  <th colspan=2>Operação</th>
+                </tr>
+              </thead>
+              <tbody>
 
-        <div class="pt-15 w-4/5 m-auto">
-            <div class="m-auto sm:m-auto text-left w-4/5 block">                                    
-                {{ $site->url }}            
-            </div>
-            <div class="m-auto sm:m-auto text-left w-4/5 block">
-                {{ $site->status_code }}                
-            </div>
-            <div class="m-auto sm:m-auto text-left w-4/5 block">
-                {{ $site->user->name }}
-            </div>
-            <div class="m-auto sm:m-auto text-left w-4/5 block">
-                {{ $site->updated_at }}
-            </div>
+                @foreach ($urls as $url)
+                
+                    <tr>
+                        <td>
+                            {{ $url->url }}                       
+                        </td>
+                    
+                        <td>
+                            {{ $url->status_code_first }} ----->  {{ $url->status_code_last }} 
+                        </td>            
+                    
+                        <td>
+                            {{ $url->user->name }}
+                        </td>
+                    
+                        <td>
+                            {{ $url->updated_at }}
+                        </td>                
 
-            <a href="/site/{{ $site->id }}" class="uppercase bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
-                Detalhes
-            </a>
+                        <td>
+                            <a href="/site/{{ $url->id }}">
+                                Detalhes
+                            </a>
+                        </td>
+                    
+                        @if (isset(Auth::user()->id) && Auth::user()->id === $url->user_id)
+                            <td>
+                                <span class="float-right">
+                                    <a 
+                                        href="/site/{{ $url->id }}/edit"
+                                        class="text-gray-700 italic hover:text-gray-900
+                                        pb-1 border-b-2"
+                                    >Editar
+                                    </a>
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="float-right">
+                                    <form 
+                                        action="/site/{{ $url->id }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('delete')
+
+                                        <button
+                                            class="text-red-500 pr-3"
+                                            type="submit"
+                                            >Excluir
+                                        </button>
+                                    </form>
+                                </span>
+                            </td>
+                        @endif       
+                    
+                    </tr>
+
+                @endforeach
             
-            @if (isset(Auth::user()->id) && Auth::user()->id === $site->user_id)
-                <span class="float-right">
-                    <a 
-                        href="/site/{{ $site->id }}/edit"
-                        class="text-gray-700 italic hover:text-gray-900
-                        pb-1 border-b-2"
-                    >Editar
-                    </a>
-                </span>
+            </tbody>
 
-                <span class="float-right">
-                    <form 
-                        action="/site/{{ $site->id }}"
-                        method="POST">
-                        @csrf
-                        @method('delete')
-
-                        <button
-                            class="text-red-500 pr-3"
-                            type="submit"
-                            >Excluir
-                        </button>
-                    </form>
-                </span>
-            @endif
-        </div>
-        
-    @endforeach
+        </table>
+    </div>
 
     
 @endsection

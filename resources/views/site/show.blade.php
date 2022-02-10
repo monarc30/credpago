@@ -10,13 +10,22 @@
 
 <div class="w-4/5 m-auto pt-20">
     <span class="text-gray-500">
-        {{ $site->status_code_first }}
+        <strong>{{ $site->status_code_first }}</strong>
     </span>
     <br />
     <br />
 
     <span class="text-gray-500">
         {{ $site->status_code_last }}
+    </span>
+
+    <span class="text-gray-400">
+        @php
+            $explode = explode( ";", $site->obs );    
+            for ($i=0; $i<count($explode); $i++) {
+                echo $explode[$i].'<br>';
+            }
+        @endphp
     </span>
 </div>
 
