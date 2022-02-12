@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Repositories\Contracts\SiteRepositoryInterface;
 
 class updateUrlStatus extends Command
 {
@@ -37,7 +38,10 @@ class updateUrlStatus extends Command
      */
     public function handle()
     {
-        $controller = new \App\Http\Controllers\SiteController;
+        $app = app(SiteRepositoryInterface::class);        
+
+        $controller = new \App\Http\Controllers\SiteController($app);
+        
         $controller->updateUrlStatus();
     }
 }
