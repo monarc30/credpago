@@ -3,16 +3,21 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\Site;
 use Illuminate\Http\Request;
 use GuzzleHttp\RetryMiddleware;
+use App\Repositories\Contracts\SiteRepositoryInterface;
+
 
 class SiteController extends Controller
 {
     
-    public function __construct()
+    protected $model;
+
+    public function __construct(SiteRepositoryInterface $model)
     {
-        //$this->middleware('auth', ['except' => ['index', 'show']]);
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+        
+        $this->model = $model;
     }
     
     /**
@@ -22,7 +27,8 @@ class SiteController extends Controller
      */
     public function index()
     {
-        return view('site.index')->with('urls', Site::orderBy('updated_at', 'DESC')->get());
+        $model = $this->model; 
+        return view('site.index')->with('urls', $model->orderBy('updated_at', 'DESC')->get());
     }
 
     /**
@@ -43,6 +49,8 @@ class SiteController extends Controller
      */
     public function store(Request $request)
     {
+        $model = $this->model;
+        
         $request->validate([
             'url' => 'required|url'
         ]);        
@@ -64,7 +72,7 @@ class SiteController extends Controller
                 $obs .= $response[$i].";";
             }
             
-            Site::create([
+            $model->create([
                 'url' => $request->input('url'),
                 'status_code_first' => $response[0],
                 'status_code_last' => $response[7],
@@ -90,8 +98,10 @@ class SiteController extends Controller
      */
     public function show($id)
     {
+        $model = $this->model; 
+        
         return view('site.show')
-            ->with('site', Site::where('id', $id)->first());
+            ->with('site', $model->where('id', $id)->first());
     }
 
     /**
@@ -102,8 +112,10 @@ class SiteController extends Controller
      */
     public function edit($id)
     {
+        $model = $this->model; 
+        
         return view('site.edit')
-            ->with('site', Site::where('id', $id)->first());
+            ->with('site', $model->where('id', $id)->first());
     }
 
     /**
@@ -115,11 +127,14 @@ class SiteController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $model = $this->model; 
+        
         $request->validate([
             'url' => 'required'
         ]);     
         
-        Site::where('id', $id)
+        $model->where('id', $id)
             ->update([
                 'url' => $request->input('url'),                
                 'user_id' => auth()->user()->id,           
@@ -137,7 +152,9 @@ class SiteController extends Controller
      */
     public function destroy($id)
     {
-        $site = Site::where('id', $id);
+        $model = $this->model; 
+        
+        $site = $model->where('id', $id);
         $site->delete();
 
         return redirect('/site')
@@ -146,8 +163,11 @@ class SiteController extends Controller
 
     public function updateUrlStatus() 
     {
-        $urls = Site::all();
+        
+        $model = $this->model;
 
+        $urls = $model->all();
+        
         foreach ($urls as $row) {            
 
             $response = get_headers($row['url']);
@@ -160,14 +180,15 @@ class SiteController extends Controller
 
             if (isset($response[0]) && isset($response[7])) {
 
-                $url = Site::find($row['id']); 
+                $url = $model->find($row['id']); 
                 $url->url = $row['url']; 
                 $url->status_code_first = $response[0]; 
                 $url->status_code_last = $response[1];                 
                 $url->obs = $obs;
-                $url->save(); 
-                
+                $url->save();                 
             }                            
-        }        
+        }
+        
+        return true;
     }
 }

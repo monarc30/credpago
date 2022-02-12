@@ -21,7 +21,7 @@
 @endif
 
 
-<div class="w-4/5 m-auto pt-20">
+<div class="w-2/3 m-auto pt-20">
     <form action="/site" method="POST">
         @csrf
 
@@ -29,13 +29,13 @@
             type="text"
             name="url"
             placeholder="Digite a url"
-            class="bg-gray-0 block border-b-2 w-full h-20 text-6xl outline-none"
+            class="bg-gray-0 block border-b-2 w-full h-15 text-2xl outline-none"
         >
         
         <button 
             type="submit"
             class="uppercase mt-15 bg-blue-500 text-gray-100 text-lg
-            font-extrabold py-4 px-8 rounded-3xl">
+            font-extrabold py-2 px-6 rounded-3xl">
             Submit Post
         </button>
     </form>    

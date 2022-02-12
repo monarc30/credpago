@@ -1,3 +1,7 @@
+@php
+    $url1=$_SERVER['REQUEST_URI'];
+    header("Refresh: 5; URL=$url1");
+@endphp
 @extends('layouts.app')
 
 @section('content')    
@@ -15,7 +19,7 @@
     @if (Auth::check())
         <div class="pt-15 w-4/5 m-auto">
             <a href="/site/create" class="bg-blue-500 uppercase bg-transparent text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
-                Insert Site
+                Insert Url
             </a>
         </div>
     @endif
@@ -104,9 +108,9 @@
 @push('add-to-footer')
 
 <script>
-    var auto_refresh = setInterval(() => {
-        $('#urls').load("<?php echo url('site.show');?>").fadeIn("slow");
-    }, 100);
+    setTimeout(function() {
+        location.reload();
+    }, 1000);
 </script>
     
 @endpush

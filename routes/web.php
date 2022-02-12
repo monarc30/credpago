@@ -21,6 +21,6 @@ Auth::routes();
 
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/all', [\App\Http\Controllers\SiteController::class, 'updateUrlStatus'])->name('home');
+Route::get('/all', [\App\Http\Controllers\SiteController::class, 'updateUrlStatus'])->name('all');
 
 
